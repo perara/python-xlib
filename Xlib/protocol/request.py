@@ -1092,6 +1092,25 @@ class GetImage(rq.ReplyRequest):
         rq.Binary('data'),
         )
 
+
+class ShmGetImage(rq.ReplyRequest):
+    _request = rq.Struct(
+        rq.Opcode(130),
+        rq.Set('format', 1, (X.XYPixmap, X.ZPixmap)),
+        rq.RequestLength(),
+        rq.Drawable('drawable'),
+        rq.Drawable('image'),
+        rq.Int16('x'),
+        rq.Int16('y'),
+        rq.Card32('plane_mask')
+    )
+
+    _reply = rq.Struct(
+        rq.ReplyCode(),
+        rq.Bool('status'),
+    )
+
+
 class PolyText8(rq.Request):
     _request = rq.Struct(
         rq.Opcode(74),
@@ -1896,4 +1915,5 @@ major_codes = {
     118: SetModifierMapping,
     119: GetModifierMapping,
     127: NoOperation,
+    130: ShmGetImage
     }
